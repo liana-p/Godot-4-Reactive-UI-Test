@@ -48,22 +48,23 @@ reactivePath = "player.health"
 offset_right = 199.0
 offset_bottom = 177.0
 
-[node name="STR" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
+[node name="Stat Widget" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
 target = NodePath("../../../Player")
 reactivePath = "player.stats.str"
+format_string = "Strength: %s"
 
-[node name="AGI" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
+[node name="Stat Widget2" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
-text = "AGI"
 target = NodePath("../../../Player")
 reactivePath = "player.stats.agi"
+format_string = "Agility: %s"
 
-[node name="DEF" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
+[node name="Stat Widget3" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
-text = "DEF"
 target = NodePath("../../../Player")
 reactivePath = "player.stats.def"
+format_string = "Defense: %s"
 
 [node name="Buttons" type="HBoxContainer" parent="HUD"]
 anchors_preset = 8
@@ -90,5 +91,3 @@ text = "Level Up"
 
 [connection signal="pressed" from="HUD/Buttons/Hit" to="Player" method="hit_player"]
 [connection signal="pressed" from="HUD/Buttons/Level up" to="Player" method="_on_level_up_pressed"]
-
-[editable path="HUD/Stats/STR"]

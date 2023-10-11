@@ -22,6 +22,10 @@ static func autobind(element, target, full_path: String, target_property: String
 	var reactive_path = keys.slice(0, -1);
 	var reactive = get_reactive_from_array_path(target, reactive_path)
 	var path = keys[-1];
+	if transform_func && transform_func is String:
+		transform_func = Callable(target, transform_func);
+	elif !transform_func:
+		transform_func = null;
 	print("reactive_path ", reactive_path, " - path: ", path);
 	return bind(element, reactive, path, target_property, transform_func);
 

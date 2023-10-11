@@ -1,16 +1,18 @@
-extends Node
+class_name ReactiveUI
 
-var bound = {};
+static var bound: Dictionary = {};
 
-func bindLabel(button: Label, state: State):
-	return bind(button, state, "text")
+static func bind_label(button: Label, state: Reactive, bound_property: String, transform_func = null):
+	return bind(button, state, bound_property, "text", transform_func)
 
-func bind(target, state: State, property: String):
+static func bind_progress_bar(progress: ProgressBar, state: Reactive, bound_property: String, transform_func = null):
+	return bind(progress, state, bound_property, "value", transform_func);
+
+static func bind(target, state: Reactive, bound_property: String, target_property: String, transform_func = null):
 	var boundState: BoundState;
-	if (!bound[state]):
+	if (!bound.has(state.id)):
 		boundState = BoundState.new(state);
-		var id = boundState.id;
-		bound[id] = boundState;
+		bound[state.id] = boundState;
 	else:
 		boundState = bound[state.id];
-	boundState.add_target(target, property);
+	boundState.add_target(target, bound_property, target_property, transform_func);

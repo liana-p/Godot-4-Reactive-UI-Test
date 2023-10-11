@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cosr42kthq4ve"]
+
+[ext_resource type="Theme" uid="uid://ctrulbctfj7fp" path="res://theme.tres" id="1_81koy"]
+
+[node name="Stat Widget" type="Label"]
+theme = ExtResource("1_81koy")
+text = "Str"
+uppercase = true

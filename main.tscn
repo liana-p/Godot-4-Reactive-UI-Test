@@ -1,22 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxoxon2mm7a5g"]
+[gd_scene load_steps=6 format=3 uid="uid://bxoxon2mm7a5g"]
 
 [ext_resource type="Script" path="res://GodotReactivity/Testing.gd" id="1_bbb3f"]
 [ext_resource type="PackedScene" uid="uid://cosr42kthq4ve" path="res://Widgets/stat_widget.tscn" id="2_g4gfv"]
 [ext_resource type="Theme" uid="uid://ctrulbctfj7fp" path="res://theme.tres" id="2_spvr0"]
+[ext_resource type="Script" path="res://GodotReactivity/BoundLabel.gd" id="2_yvkl4"]
+[ext_resource type="Script" path="res://GodotReactivity/BoundProgressBar.gd" id="3_fpvl8"]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Testing" type="Node2D" parent="." node_paths=PackedStringArray("textLabel", "healthBar", "str_label", "agi_label", "def_label")]
+[node name="Player" type="Node2D" parent="."]
 script = ExtResource("1_bbb3f")
-textLabel = NodePath("../HUD/Name")
-healthBar = NodePath("../HUD/Health")
-str_label = NodePath("../HUD/Stats/STR")
-agi_label = NodePath("../HUD/Stats/AGI")
-def_label = NodePath("../HUD/Stats/DEF")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="Name" type="Label" parent="HUD"]
+[node name="Name" type="Label" parent="HUD" node_paths=PackedStringArray("target")]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -26,8 +23,11 @@ offset_bottom = 23.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Hello"
+script = ExtResource("2_yvkl4")
+target = NodePath("../../Player")
+reactivePath = "player.name"
 
-[node name="Health" type="ProgressBar" parent="HUD"]
+[node name="Health" type="ProgressBar" parent="HUD" node_paths=PackedStringArray("target")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -40,21 +40,30 @@ grow_horizontal = 2
 grow_vertical = 0
 step = 1.0
 value = 50.0
+script = ExtResource("3_fpvl8")
+target = NodePath("../../Player")
+reactivePath = "player.health"
 
 [node name="Stats" type="VBoxContainer" parent="HUD"]
 offset_right = 199.0
 offset_bottom = 177.0
 
-[node name="STR" parent="HUD/Stats" instance=ExtResource("2_g4gfv")]
+[node name="STR" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
+target = NodePath("../../../Player")
+reactivePath = "player.stats.str"
 
-[node name="AGI" parent="HUD/Stats" instance=ExtResource("2_g4gfv")]
+[node name="AGI" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
 text = "AGI"
+target = NodePath("../../../Player")
+reactivePath = "player.stats.agi"
 
-[node name="DEF" parent="HUD/Stats" instance=ExtResource("2_g4gfv")]
+[node name="DEF" parent="HUD/Stats" node_paths=PackedStringArray("target") instance=ExtResource("2_g4gfv")]
 layout_mode = 2
 text = "DEF"
+target = NodePath("../../../Player")
+reactivePath = "player.stats.def"
 
 [node name="Buttons" type="HBoxContainer" parent="HUD"]
 anchors_preset = 8
@@ -79,5 +88,7 @@ layout_mode = 2
 theme = ExtResource("2_spvr0")
 text = "Level Up"
 
-[connection signal="pressed" from="HUD/Buttons/Hit" to="Testing" method="hit_player"]
-[connection signal="pressed" from="HUD/Buttons/Level up" to="Testing" method="_on_level_up_pressed"]
+[connection signal="pressed" from="HUD/Buttons/Hit" to="Player" method="hit_player"]
+[connection signal="pressed" from="HUD/Buttons/Level up" to="Player" method="_on_level_up_pressed"]
+
+[editable path="HUD/Stats/STR"]
